@@ -10,11 +10,13 @@
     "module": "CommonJS",
     "esModuleInterop": true,
     "baseUrl": "src",
+    "allowJs": true,
     "paths": {
       "@/*": ["*"],
       "@/tests/*": ["../tests/*"]
     },
     "strict": true
   },
-  "include": ["src, tests"]
+  "include": ["src, tests"],
+  "exclude": ["node_modules", "dist"]
 }
