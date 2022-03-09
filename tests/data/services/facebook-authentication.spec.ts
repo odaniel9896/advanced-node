@@ -6,7 +6,6 @@ class LoadFacebookUserApiSpy implements LoadFacebookUserApi {
   result = undefined;
 
   async loadUser(params: LoadFacebookUserApi.Params): Promise<LoadFacebookUserApi.Result> {
-    console.log(this.loadUser);
     this.token = params.token;
     return this.result;
   }
