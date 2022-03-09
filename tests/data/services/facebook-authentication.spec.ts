@@ -1,5 +1,5 @@
 import { LoadFacebookUserApi } from '@/data/contracts/apis'
-import { LoadUserAccountRepository } from '@/data/contracts/repos'
+import { CreateFacebookAccountRepository, LoadUserAccountRepository } from '@/data/contracts/repos'
 import { FacebookAuthenticationService } from '@/data/contracts/services'
 import { AuthenticationError } from '@/domain/errors'
 import { mock, MockProxy } from 'jest-mock-extended'
@@ -7,6 +7,7 @@ import { mock, MockProxy } from 'jest-mock-extended'
 describe('FacebookAuthenticationService ', () => {
   let loadFacebookUserApi: MockProxy<LoadFacebookUserApi>
   let loadUserAccountRepo: MockProxy<LoadUserAccountRepository>
+  let createFacebookAccountRepo: MockProxy<CreateFacebookAccountRepository>
   let sut: FacebookAuthenticationService
   const token = 'any_token'
 
@@ -15,10 +16,11 @@ describe('FacebookAuthenticationService ', () => {
     loadFacebookUserApi.loadUser.mockResolvedValue({
       name: 'any_facebook_name',
       email: 'any_facebook_email',
-      id: 'any_facebook_id'
+      facebookId: 'any_facebook_id'
     })
     loadUserAccountRepo = mock()
-    sut = new FacebookAuthenticationService(loadFacebookUserApi, loadUserAccountRepo)
+    createFacebookAccountRepo = mock()
+    sut = new FacebookAuthenticationService(loadFacebookUserApi, loadUserAccountRepo, createFacebookAccountRepo)
   })
 
   it('should call LoadFacebookUserApi with correct params', async () => {
@@ -41,5 +43,17 @@ describe('FacebookAuthenticationService ', () => {
 
     expect(loadUserAccountRepo.load).toHaveBeenCalledWith({ email: 'any_facebook_email' })
     expect(loadUserAccountRepo.load).toHaveBeenCalledTimes(1)
+  })
+
+  it('should call CreateUserAccountRepo when LoadUserAccountRepository returns undefined', async () => {
+    loadUserAccountRepo.load.mockResolvedValueOnce(undefined)
+    await sut.perform({ token })
+
+    expect(createFacebookAccountRepo.createFromFacebook).toHaveBeenCalledWith({
+      email: 'any_facebook_email',
+      name: 'any_facebook_name',
+      facebookId: 'any_facebook_id'
+    })
+    expect(createFacebookAccountRepo.createFromFacebook).toHaveBeenCalledTimes(1)
   })
 })

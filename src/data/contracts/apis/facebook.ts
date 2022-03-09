@@ -8,7 +8,7 @@ export namespace LoadFacebookUserApi {
   }
 
   export type Result = undefined | {
-    id: string;
+    facebookId: string;
     name: string;
     email: string;
   };
