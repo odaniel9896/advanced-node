@@ -6,11 +6,7 @@ import { RequiredFieldError } from '@/apllication/errors'
 type HttpRequest = {
   token: string
 }
-type Model =
-  | Error
-  | {
-      accessToken: string
-    }
+type Model = Error | { accessToken: string }
 export class FacebookLoginController {
   constructor(private readonly facebookAuthentication: FacebookAuthentication) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse<Model>> {
