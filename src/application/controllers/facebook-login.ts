@@ -1,4 +1,4 @@
-import { HttpResponse, badRequest, unauthorized, serverError, ok } from '@/apllication/helpers'
+import { HttpResponse, badRequest, unauthorized, serverError, ok } from '@/application/helpers'
 import { FacebookAuthentication } from '@/domain/features'
 import { AccessToken } from '@/domain/models'
 import { RequiredStringValidator } from '../validation/required-string'
