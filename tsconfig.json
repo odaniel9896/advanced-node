@@ -8,6 +8,7 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "module": "CommonJS",
+    "useUnknownInCatchVariables": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "esModuleInterop": true,
